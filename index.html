@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO | Modern Spa & Salon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #8B5CF6;
+            --purple-light: #A78BFA;
+            --purple-dark: #7C3AED;
+            --purple-neon: #C4B5FD;
+            --beige: #F5F3FF;
+            --beige-dark: #EDE9FE;
+            --charcoal: #1F2937;
+            --gray-light: #F9FAFB;
+            --white: #FFFFFF;
+            --gradient-1: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            --gradient-2: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+            --gradient-3: linear-gradient(135deg, #8B5CF6 0%, #C4B5FD 100%);
+            --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            --shadow-sm: 0 4px 6px -1px rgba(139, 92, 246, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(139, 92, 246, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(139, 92, 246, 0.1);
+            --shadow-neon: 0 0 20px rgba(196, 181, 253, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--charcoal);
+            background-color: var(--beige);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Ultra-modern Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 320px;
+            background: var(--gradient-2);
+            padding: 40px 30px;
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+            transform: translateX(-100%);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(139, 92, 246, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -1.5px;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            opacity: 0.7;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .nav-links li {
+            margin-bottom: 12px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.active .nav-links li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .sidebar.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .sidebar.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+        .sidebar.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+        .sidebar.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            color: var(--charcoal);
+            text-decoration: none;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .nav-links a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-1);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+            transform-origin: top;
+        }
+
+        .nav-links a i {
+            margin-right: 16px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+            color: var(--primary-purple);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transform: translateX(10px);
+        }
+
+        .nav-links a:hover:before, .nav-links a.active:before {
+            transform: scaleY(1);
+        }
+
+        .nav-links a:hover i, .nav-links a.active i {
+            transform: scale(1.2);
+        }
+
+        .sidebar-contact {
+            padding: 30px;
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .sidebar-contact h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--charcoal);
+        }
+
+        .sidebar-contact p {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            color: var(--charcoal);
+            opacity: 0.8;
+        }
+
+        .sidebar-contact i {
+            color: var(--primary-purple);
+            margin-right: 12px;
+            font-size: 1rem;
+            width: 20px;
+        }
+
+        /* Modern Menu Toggle */
+        .menu-toggle {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-neon);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            margin: 3px 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+        }
+
+        .page-section {
+            min-height: 100vh;
+            padding: 100px 60px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hero Section - Ultra Modern */
+        #hero {
+            background: linear-gradient(rgba(31, 41, 55, 0.9), rgba(31, 41, 55, 0.95)), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--white), var(--purple-neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 40px;
+            background: var(--gradient-1);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-3);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-neon);
+        }
+
+        .hero-cta:hover:before {
+            left: 0;
+        }
+
+        .hero-cta i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-cta:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Services Section */
+        #services {
+            background: var(--beige);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--charcoal);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-1);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--charcoal);
+            opacity: 0.7;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            perspective: 1000px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            position: relative;
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: translateY(30px) rotateX(10deg);
+        }
+
+        .service-card.animate {
+            animation: cardFloat 0.6s ease forwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes cardFloat {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+
+        .service-img:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to top, rgba(31, 41, 55, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        .service-content {
+            padding: 30px;
+            position: relative;
+        }
+
+        .service-badge {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            background: var(--gradient-1);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .service-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--charcoal);
+        }
+
+        .service-desc {
+            color: var(--charcoal);
+            opacity: 0.7;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--primary-purple);
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .service-duration {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            opacity: 0.5;
+            font-weight: 500;
+        }
+
+        /* Pricing Section */
+        #pricing {
+            background: var(--charcoal);
+            color: var(--white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .pricing-card {
+            background: var(--gradient-glass);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--purple-neon);
+            box-shadow: var(--shadow-neon);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--purple-neon);
+        }
+
+        .pricing-header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .pricing-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--white);
+        }
+
+        .pricing-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .pricing-period {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .pricing-features li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .pricing-features li i {
+            margin-right: 12px;
+            color: var(--purple-neon);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section - Modern Minimal */
+        #contact {
+            background: var(--beige-dark);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 30px;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--purple-light);
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--charcoal);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-card h3 i {
+            margin-right: 12px;
+            color: var(--primary-purple);
+        }
+
+        .info-card p {
+            color: var(--charcoal);
+            opacity: 0.8;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        .template-note {
+            background: var(--gradient-2);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary-purple);
+        }
+
+        .template-note h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary-purple);
+        }
+
+        .template-note p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-bottom: 40px;
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+
+        /* Floating elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            right: -150px;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .page-section {
+                padding: 80px 40px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-section {
+                padding: 80px 30px;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.3rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .menu-toggle {
+                top: 20px;
+                left: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-section {
+                padding: 60px 20px;
+            }
+            
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .menu-toggle {
+                top: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+
+    <!-- Modern Menu Toggle -->
+    <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Ultra-modern Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <div class="logo">NEO</div>
+                <div class="tagline">Modern Beauty Studio</div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#hero" class="active"><i class="fas fa-spa"></i> Home</a></li>
+                <li><a href="#services"><i class="fas fa-gem"></i> Services</a></li>
+                <li><a href="#pricing"><i class="fas fa-crown"></i> Packages</a></li>
+                <li><a href="#contact"><i class="fas fa-star"></i> Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-contact">
+            <h3>Visit Us</h3>
+            <p><i class="fas fa-map-marker-alt"></i> 456 Modern Avenue, Design District</p>
+            <p><i class="fas fa-phone"></i> <span class="fake-number">(555) 987-6543</span></p>
+            <p><i class="fas fa-clock"></i> Tue-Sun: 10am-9pm</p>
+            <p><i class="fas fa-palette"></i> By Appointment Only</p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Hero Section -->
+        <section id="hero" class="page-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Redefining Beauty with Modern Luxury</h1>
+                    <p class="hero-subtitle">NEO combines cutting-edge technology with artisan craftsmanship to deliver transformative beauty experiences in a minimalist, serene environment.</p>
+                    <a href="#services" class="hero-cta">Explore Services <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="page-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Curated Experiences</h2>
+                    <p class="section-subtitle">Each service is meticulously designed to provide transformative results through innovative techniques and premium products.</p>
+                </div>
+
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Advanced Facial Treatment">
+                        </div>
+                        <div class="service-badge">Signature</div>
+                        <div class="service-content">
+                            <h3 class="service-title">Quantum Facial</h3>
+                            <p class="service-desc">A multi-phase facial incorporating LED therapy, microcurrent technology, and customized serums for visible skin transformation.</p>
+                            <div class="service-price">
+                                $180
+                                <span class="service-duration">90 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Massage">
+                        </div>
+                        <div class="service-badge">Popular</div>
+                        <div class="service-content">
+                            <h3 class="service-title">Cryo-Therapy Massage</h3>
+                            <p class="service-desc">Combining hot stone therapy with cryo-elements to stimulate circulation, reduce inflammation, and promote deep relaxation.</p>
+                            <div class="service-price">
+                                $220
+                                <span class="service-duration">120 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nail Design">
+                        </div>
+                        <div class="service-badge">New</div>
+                        <div class="service-content">
+                            <h3 class="service-title">Architectural Nails</h3>
+                            <p class="service-desc">Geometric nail art using advanced gel techniques and minimalist design principles for a modern, sculptural look.</p>
+                            <div class="service-price">
+                                $95
+                                <span class="service-duration">75 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1556228578-9c360e1d8d34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Advanced Aromatherapy">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Sensory Aromatherapy</h3>
+                            <p class="service-desc">Custom scent profiling with advanced diffusion technology to create personalized atmospheric healing experiences.</p>
+                            <div class="service-price">
+                                $140
+                                <span class="service-duration">60 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1629198720836-0f7d2d6e7652?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Body Treatment">
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">Biometric Body Mapping</h3>
+                            <p class="service-desc">Advanced body analysis and targeted treatment using data-driven approaches to address specific concerns.</p>
+                            <div class="service-price">
+                                $160
+                                <span class="service-duration">90 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="service-card">
+                        <div class="service-img">
+                            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Hair Treatment">
+                        </div>
+                        <div class="service-badge">Luxury</div>
+                        <div class="service-content">
+                            <h3 class="service-title">Molecular Hair Restoration</h3>
+                            <p class="service-desc">Scientific approach to hair health using peptide treatments and advanced scalp therapy for optimal results.</p>
+                            <div class="service-price">
+                                $195
+                                <span class="service-duration">120 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="page-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Experience Packages</h2>
+                    <p class="section-subtitle">Curated collections designed for comprehensive transformation and optimal results.</p>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Package 1 -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Essentials</h3>
+                            <div class="pricing-price">$420</div>
+                            <div class="pricing-period">one-time experience</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Quantum Facial</li>
+                            <li><i class="fas fa-check"></i> Sensory Aromatherapy</li>
+                            <li><i class="fas fa-check"></i> Digital Consultation</li>
+                            <li><i class="fas fa-check"></i> Custom Product Kit</li>
+                        </ul>
+                        <a href="#contact" class="hero-cta" style="width: 100%; text-align: center;">Inquire</a>
+                    </div>
+
+                    <!-- Package 2 (Featured) -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Transform</h3>
+                            <div class="pricing-price">$780</div>
+                            <div class="pricing-period">complete package</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Cryo-Therapy Massage</li>
+                            <li><i class="fas fa-check"></i> Biometric Body Mapping</li>
+                            <li><i class="fas fa-check"></i> Quantum Facial</li>
+                            <li><i class="fas fa-check"></i> Advanced Nutrition Guide</li>
+                            <li><i class="fas fa-check"></i> 2 Follow-up Sessions</li>
+                        </ul>
+                        <a href="#contact" class="hero-cta" style="width: 100%; text-align: center;">Inquire</a>
+                    </div>
+
+                    <!-- Package 3 -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Elevate</h3>
+                            <div class="pricing-price">$1,250</div>
+                            <div class="pricing-period">premium experience</div>
+                        </div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> All Signature Services</li>
+                            <li><i class="fas fa-check"></i> Personal Wellness Coach</li>
+                            <li><i class="fas fa-check"></i> Full Product Regimen</li>
+                            <li><i class="fas fa-check"></i> Quarterly Maintenance</li>
+                            <li><i class="fas fa-check"></i> Priority Booking Access</li>
+                        </ul>
+                        <a href="#contact" class="hero-cta" style="width: 100%; text-align: center;">Inquire</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Connect With Us</h2>
+                    <p class="section-subtitle">Experience modern beauty in our minimalist studio designed for tranquility and transformation.</p>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="info-card">
+                            <h3><i class="fas fa-map-marker-alt"></i> Our Studio</h3>
+                            <p>456 Modern Avenue</p>
+                            <p>Design District</p>
+                            <p>Beauty City, BC 10001</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3><i class="fas fa-clock"></i> Hours</h3>
+                            <p>Tuesday - Sunday: 10:00 AM - 9:00 PM</p>
+                            <p>Monday: Closed</p>
+                            <p>By appointment only</p>
+                        </div>
+
+                        <div class="info-card">
+                            <h3><i class="fas fa-phone"></i> Contact</h3>
+                            <p><strong>Studio:</strong> <span class="fake-number">(555) 987-6543</span></p>
+                            <p><strong>Stylist:</strong> <span class="fake-number">(555) 123-4567</span></p>
+                            <p><strong>Email:</strong> studio@neobeauty.com</p>
+                        </div>
+
+                        <div class="template-note">
+                            <h4>Template Note</h4>
+                            <p>This is a modern template design for presentation purposes. All contact information is fictional and for demonstration only. Replace with actual business details when implementing.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><i class="fas fa-star"></i> Why NEO?</h3>
+                        <p><strong>Minimalist Design:</strong> Serene environment focusing on experience.</p>
+                        <p><strong>Advanced Technology:</strong> Cutting-edge equipment and techniques.</p>
+                        <p><strong>Data-Driven Approach:</strong> Personalized treatments based on biometric analysis.</p>
+                        <p><strong>Sustainable Practices:</strong> Eco-friendly products and processes.</p>
+                        <p><strong>Artisan Craftsmanship:</strong> Each service delivered with precision and care.</p>
+                        
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(139, 92, 246, 0.1);">
+                            <h3><i class="fas fa-calendar"></i> Booking</h3>
+                            <p>All services are by appointment only. Please contact us to schedule your consultation and personalized experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">NEO</div>
+                <p class="footer-tagline">Modern beauty experiences in a minimalist environment</p>
+                <div class="copyright">
+                    <p>&copy; 2023 NEO Modern Beauty Studio. All rights reserved.</p>
+                    <p>This is a modern template design for presentation purposes.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Modern sidebar toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            
+            // Animate navigation links when sidebar opens
+            if (sidebar.classList.contains('active')) {
+                const links = document.querySelectorAll('.nav-links li');
+                links.forEach((link, index) => {
+                    link.style.transitionDelay = `${0.1 + index * 0.1}s`;
+                });
+            }
+        });
+        
+        // Close sidebar when clicking on a link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                sidebar.classList.remove('active');
+                
+                // Update active link
+                navLinks.forEach(item => item.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+        
+        // Animate elements when they come into view
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate service cards
+                    const serviceCards = entry.target.querySelectorAll('.service-card');
+                    serviceCards.forEach(card => {
+                        card.classList.add('animate');
+                    });
+                    
+                    // Add floating animation to cards on hover
+                    serviceCards.forEach(card => {
+                        card.addEventListener('mouseenter', () => {
+                            card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                        });
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all page sections
+        document.querySelectorAll('.page-section').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Update active nav link on scroll with smooth effect
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.page-section');
+            const scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const hero = document.getElementById('hero');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * 0.5;
+            
+            if (hero) {
+                hero.style.backgroundPosition = `center ${rate}px`;
+            }
+        });
+        
+        // Add interactive hover effects to all cards
+        const allCards = document.querySelectorAll('.service-card, .pricing-card, .info-card');
+        allCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = card.classList.contains('pricing-card') 
+                    ? 'translateY(-10px)' 
+                    : 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (!card.classList.contains('featured')) {
+                    card.style.transform = 'translateY(0) scale(1)';
+                } else {
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+        
+        // Add subtle animation to hero title
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle) {
+            setTimeout(() => {
+                heroTitle.style.transition = 'all 0.8s ease';
+                heroTitle.style.opacity = '1';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
